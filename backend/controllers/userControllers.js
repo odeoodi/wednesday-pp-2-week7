@@ -13,20 +13,18 @@ const signupUser = async (req,res) => {
         name, 
         username, 
         password, 
-        phone_number, 
-        gender, 
-        date_of_birth,
-        membership_status} = req.body;
+        role,
+        bio
+} = req.body;
     
         try{
             if(
                 !name || 
                 !username || 
                 !password ||
-                !phone_number || 
-                !gender ||
-                !date_of_birth ||
-                !membership_status) {
+                !role || 
+                !bio 
+               ) {
                     res.status(400)
                     throw new Error('All fiels are required');
                 }
@@ -40,10 +38,8 @@ const signupUser = async (req,res) => {
                 const user = await User.create({name, 
                                                 username, 
                                                 password: hashedPassword, 
-                                                phone_number, 
-                                                gender, 
-                                                date_of_birth,
-                                                membership_status});
+                                                role,
+                                            bio});
                 if(user){
                     const token = createToken(user._id);
                     res.status(201).json({username, token});

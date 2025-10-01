@@ -1,5 +1,6 @@
 import useField from '../hooks/useField'
 import useSignup from '../hooks/useSignup'
+import {useState} from 'react'
 import {useNavigate} from "react-router-dom"
 
 const Signup = ({setIsAuthenticated}) => {
@@ -7,10 +8,8 @@ const Signup = ({setIsAuthenticated}) => {
     const name = useField("text")
     const username = useField("text")
     const password = useField("password")
-    const phoneNumber = useField("text")
-    const gender = useField("text")
-    const dateOfBirth = useField("date")
-    const membershipStatus = useField("text")
+    const [role, setRole] = useState("Seller")
+    const bio = useField("text")
 
     const {signup, error} = useSignup("/api/users/signup");
 
@@ -21,10 +20,8 @@ const Signup = ({setIsAuthenticated}) => {
             username: username.value,
             password: password.value,
             name: name.value,
-            phone_number: phoneNumber.value,
-            gender: gender.value,
-            date_of_birth: dateOfBirth.value,
-            membership_status: membershipStatus.value,
+            role,
+            bio: bio.value
         });
 
         if (!error) {
@@ -44,14 +41,15 @@ const Signup = ({setIsAuthenticated}) => {
             <input {...username} />
             <label>Password:</label>
             <input {...password} />
-            <label>Phone Number:</label>
-            <input {...phoneNumber} />
-            <label>Gender:</label>
-            <input {...gender} />
-            <label>Date of Birth:</label>
-            <input {...dateOfBirth} />
-            <label>Membership Status:</label>
-            <input {...membershipStatus} />
+            <label>Role:</label>
+            <select onChange = {(e) => setRole(e.target.value)}>
+                <option value="Seller">Seller</option>
+                <option value="Buyer">Buyer</option>
+                <option value="Admin">Admin</option>
+            </select>
+            <label>Bio:</label>
+            <textarea {...bio} />
+            
             <button>Sign up</button>
             </form>
         </div>
